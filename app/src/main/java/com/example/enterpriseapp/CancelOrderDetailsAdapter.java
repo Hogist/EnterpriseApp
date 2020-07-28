@@ -37,11 +37,12 @@ public class CancelOrderDetailsAdapter  extends RecyclerView.Adapter<CancelOrder
         TextView NewMenu = holder.Newmenu;
         TextView Status = holder.Status;
 
-        RequestID.setText("RequestId");
-        VendorName.setText("Vendor Name");
-        Reason.setText("Reason");
-        NewMenu.setText("New Menu");
-        Status.setText("Status");
+        RequestID.setText(dataModels.get(position).getRequestId());
+        VendorName.setText(dataModels.get(position).getVendorName());
+        Reason.setText(dataModels.get(position).getReason());
+        NewMenu.setText(dataModels.get(position).getNewMenu());
+        Status.setText(dataModels.get(position).getStatus());
+
     }
 
     @Override

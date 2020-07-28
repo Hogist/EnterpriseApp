@@ -25,51 +25,50 @@ import java.util.ArrayList;
 
 public class CancelOrderDetails extends AppCompatActivity {
 
-
     private static RecyclerView.Adapter adapter;
     protected RecyclerView.LayoutManager layoutManager;
+    private FirebaseFirestore firestore;
     private static RecyclerView recyclerView;
-    private static ArrayList<CancelOrderRequestDataModel> data;
+    private static ArrayList<MenuChangeRequestDataModel> data3;
     static View.OnClickListener myOnclickListener;
-    FirebaseFirestore firestore;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cancel_order_details);
+        setContentView(R.layout.cancelrequest);
 
-        myOnclickListener = new MyOnClickListener(this);
+        firestore= FirebaseFirestore.getInstance();
 
-        recyclerView = (RecyclerView) findViewById(R.id.cancel_order_details_recyclerview);
+
+
+        myOnclickListener= new MyOnClickListener(this);
+
+        recyclerView = (RecyclerView)findViewById(R.id.cancel_request_recyclerview);
         recyclerView.setHasFixedSize(true);
-        firestore = FirebaseFirestore.getInstance();
 
         layoutManager = new LinearLayoutManager(this);
+        data3 = new ArrayList<MenuChangeRequestDataModel>();
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        firestore.collection("CancelOrderRequestID")
+        firestore.collection("CancelOrderRequest")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for (DocumentSnapshot q : task.getResult()) {
-                            CancelOrderRequestDataModel C = new CancelOrderRequestDataModel((String.valueOf(q.getDouble("CancelOrderRequestID"))),
+                        for(DocumentSnapshot q:task.getResult()){
+                            MenuChangeRequestDataModel M=new MenuChangeRequestDataModel(String.valueOf(q.getDouble("CancelOrderRequestID")),
                                     String.valueOf(q.getDouble("EUserID")),
                                     String.valueOf(q.getBoolean("NextMeal")),
                                     q.getString("Reason"),
                                     String.valueOf(q.getDouble("VUserID")));
-
-                                    data.add(C);
+                            data3.add(M);
                         }
                     }
                 });
-
-
-        adapter = new CancelOrderDetailsAdapter(data);
+        adapter = new MenuChangeRequestAdapter(data3);
         recyclerView.setAdapter(adapter);
-
 
     }
 
@@ -85,21 +84,19 @@ public class CancelOrderDetails extends AppCompatActivity {
                 }
 
                 for(QueryDocumentSnapshot q:value) {
-                    CancelOrderRequestDataModel C = new CancelOrderRequestDataModel((String.valueOf(q.getDouble("CancelOrderRequestID"))),
+                    MenuChangeRequestDataModel M=new MenuChangeRequestDataModel(String.valueOf(q.getDouble("CancelOrderRequestID")),
                             String.valueOf(q.getDouble("EUserID")),
                             String.valueOf(q.getBoolean("NextMeal")),
                             q.getString("Reason"),
                             String.valueOf(q.getDouble("VUserID")));
-
-                    data.add(C);
-                    adapter = new CancelOrderDetailsAdapter(data);
-
-
+                    data3.add(M);
+                    adapter = new MenuChangeRequestAdapter(data3);
                     recyclerView.setAdapter(adapter);
                 }
             }
         });
     }
+
     static class MyOnClickListener implements View.OnClickListener{
         private final Context context;
         MyOnClickListener(Context context){
@@ -110,5 +107,4 @@ public class CancelOrderDetails extends AppCompatActivity {
             Toast.makeText(context, "item Clicked!!", Toast.LENGTH_SHORT).show();
         }
     }
-
 }

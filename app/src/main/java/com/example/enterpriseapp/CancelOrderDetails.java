@@ -60,7 +60,7 @@ public class CancelOrderDetails extends AppCompatActivity {
                         for(DocumentSnapshot q:task.getResult()){
                             MenuChangeRequestDataModel M=new MenuChangeRequestDataModel(String.valueOf(q.getDouble("CancelOrderRequestID")),
                                     String.valueOf(q.getDouble("EUserID")),
-                                    String.valueOf(q.getBoolean("NextMeal")),
+                                    q.getString("NextMeal"),
                                     q.getString("Reason"),
                                     String.valueOf(q.getDouble("VUserID")));
                             data3.add(M);
@@ -86,7 +86,7 @@ public class CancelOrderDetails extends AppCompatActivity {
                 for(QueryDocumentSnapshot q:value) {
                     MenuChangeRequestDataModel M=new MenuChangeRequestDataModel(String.valueOf(q.getDouble("CancelOrderRequestID")),
                             String.valueOf(q.getDouble("EUserID")),
-                            String.valueOf(q.getBoolean("NextMeal")),
+                            q.getString("NextMeal"),
                             q.getString("Reason"),
                             String.valueOf(q.getDouble("VUserID")));
                     data3.add(M);

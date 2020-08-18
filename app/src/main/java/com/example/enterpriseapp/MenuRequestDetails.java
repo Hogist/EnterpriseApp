@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,6 +34,10 @@ public class MenuRequestDetails extends AppCompatActivity {
     private static RecyclerView recyclerView;
     private static ArrayList<MenuChangeRequestDataModel> data;
     static View.OnClickListener myOnclickListener;
+    FirebaseUser user;
+    FirebaseAuth mAuth;
+    String email;
+
 
 
     @Override
@@ -40,6 +46,12 @@ public class MenuRequestDetails extends AppCompatActivity {
         setContentView(R.layout.activity_menu_request_details);
 
         firestore=FirebaseFirestore.getInstance();
+        user=mAuth.getInstance().getCurrentUser();
+
+        if(user!=null)
+        {
+            email=user.getEmail();
+        }
 
 
 
@@ -54,6 +66,7 @@ public class MenuRequestDetails extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         firestore.collection("MenuChangeRequest")
+                .whereEqualTo("EEmail",email)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -77,7 +90,9 @@ public class MenuRequestDetails extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        firestore.collection("MenuChangeRequest").addSnapshotListener(this, new EventListener<QuerySnapshot>() {
+        firestore.collection("MenuChangeRequest")
+                .whereEqualTo("EEmail",email)
+                .addSnapshotListener(this, new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if(error!=null){

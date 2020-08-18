@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,6 +29,10 @@ public class MenuChangeRequest extends AppCompatActivity {
     private Button Submit, ViewRequestList;
     private EditText reason,newmenu;
     private FirebaseFirestore firestore;
+    String email;
+
+    FirebaseUser user;
+    FirebaseAuth mAuth;
 
 
 
@@ -41,6 +47,12 @@ public class MenuChangeRequest extends AppCompatActivity {
         ViewRequestList = findViewById(R.id.cancel_order_request_viewlist);
         firestore=FirebaseFirestore.getInstance();
 
+        user=mAuth.getInstance().getCurrentUser();
+
+        if(user!=null)
+        {
+            email=user.getEmail();
+        }
 
 
 
@@ -62,6 +74,7 @@ public class MenuChangeRequest extends AppCompatActivity {
                 newMenu.put("RequestTime", FieldValue.serverTimestamp());
                 newMenu.put("Reason",sReason);
                 newMenu.put("NewMenu",sNewMenu);
+                newMenu.put("EEmail",email);
 
                 requestRef.set(newMenu).addOnSuccessListener(new OnSuccessListener<Void>(){
                     @Override

@@ -13,21 +13,23 @@
         android:theme="@style/AppTheme">
         <activity android:name=".forgotpass"></activity>
         <activity android:name=".CancelOrderDetails" />
-        <activity android:name=".CancleOrder" />
         <activity android:name=".MenuRequestDetails" />
         <activity android:name=".MenuChangeRequest" />
         <activity android:name=".OrderList" />
-        <activity android:name=".OrderNow" />
         <activity android:name=".CovidHygieneCheck" />
         <activity android:name=".MenuDetails" />
         <activity android:name=".UserAccount" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".CancleOrder"/>
+        <activity android:name=".OrderNow"/>
+            <activity android:name=".Splashscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+            </activity>
+
     </application>
 
 </manifest>

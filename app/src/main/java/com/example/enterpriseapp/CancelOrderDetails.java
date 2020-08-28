@@ -1,16 +1,16 @@
 package com.example.enterpriseapp;
 
+import android.content.Context;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Context;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,7 +29,7 @@ public class CancelOrderDetails extends AppCompatActivity {
     protected RecyclerView.LayoutManager layoutManager;
     private FirebaseFirestore firestore;
     private static RecyclerView recyclerView;
-    private static ArrayList<MenuChangeRequestDataModel> data3;
+    private static ArrayList<CancelRequestDataModel> data3;
     static View.OnClickListener myOnclickListener;
 
 
@@ -48,7 +48,7 @@ public class CancelOrderDetails extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(this);
-        data3 = new ArrayList<MenuChangeRequestDataModel>();
+        data3 = new ArrayList<CancelRequestDataModel>();
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -58,7 +58,7 @@ public class CancelOrderDetails extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         for(DocumentSnapshot q:task.getResult()){
-                            MenuChangeRequestDataModel M=new MenuChangeRequestDataModel(String.valueOf(q.getDouble("CancelOrderRequestID")),
+                            CancelRequestDataModel M=new CancelRequestDataModel(String.valueOf(q.getDouble("CancelOrderRequestID")),
                                     String.valueOf(q.getDouble("EUserID")),
                                     q.getString("NextMeal"),
                                     q.getString("Reason"),
@@ -67,7 +67,7 @@ public class CancelOrderDetails extends AppCompatActivity {
                         }
                     }
                 });
-        adapter = new MenuChangeRequestAdapter(data3);
+        adapter = new CancelRequestAdapter(data3);
         recyclerView.setAdapter(adapter);
 
     }
@@ -84,13 +84,13 @@ public class CancelOrderDetails extends AppCompatActivity {
                 }
 
                 for(QueryDocumentSnapshot q:value) {
-                    MenuChangeRequestDataModel M=new MenuChangeRequestDataModel(String.valueOf(q.getDouble("CancelOrderRequestID")),
+                    CancelRequestDataModel M=new CancelRequestDataModel(String.valueOf(q.getDouble("CancelOrderRequestID")),
                             String.valueOf(q.getDouble("EUserID")),
                             q.getString("NextMeal"),
                             q.getString("Reason"),
                             String.valueOf(q.getDouble("VUserID")));
                     data3.add(M);
-                    adapter = new MenuChangeRequestAdapter(data3);
+                    adapter = new CancelRequestAdapter(data3);
                     recyclerView.setAdapter(adapter);
                 }
             }
